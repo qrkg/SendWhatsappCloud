@@ -2,7 +2,7 @@ function onOpen() {
   const ui = SpreadsheetApp.getUi();
   ui.createMenu('WhatsApp Sender')
     .addItem('Send Messages', 'showSidebar')
-    .addItem('Set Settings', 'promptForSettings') // Menu item for settings
+    .addItem('Set Settings', 'promptForSettings')
     .addToUi();
 }
 
@@ -23,8 +23,8 @@ function promptForSettings() {
 function setSettings(token, endpoint) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getActiveSheet();
-  sheet.getRange('D1').setValue(token); // Save token to cell D1
-  sheet.getRange('E1').setValue(endpoint); // Save endpoint to cell E1
+  sheet.getRange('D1').setValue(token);
+  sheet.getRange('E1').setValue(endpoint);
 }
 
 function getSettings() {
@@ -38,7 +38,7 @@ function getSettings() {
 
 function stopSendingMessages() {
   const scriptProperties = PropertiesService.getScriptProperties();
-  scriptProperties.setProperty('stopSending', 'true'); // Set the stop flag
+  scriptProperties.setProperty('stopSending', 'true');
 }
 
 function sendWhatsAppMessages(templateName, languageCode, imageUrl, startRow, endRow, delaySeconds) {
@@ -54,7 +54,7 @@ function sendWhatsAppMessages(templateName, languageCode, imageUrl, startRow, en
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sheet = ss.getSheetByName('Sheet1');
   const scriptProperties = PropertiesService.getScriptProperties();
-  scriptProperties.setProperty('stopSending', 'false'); // Reset the stop flag
+  scriptProperties.setProperty('stopSending', 'false');
   startRow = parseInt(startRow);
   endRow = parseInt(endRow);
   const delay = parseInt(delaySeconds) * 1000;
@@ -75,9 +75,10 @@ function sendWhatsAppMessages(templateName, languageCode, imageUrl, startRow, en
       continue;
     }
 
-    const formattedPhoneNumber = `+${phoneNumber}`;
+    const formattedPhoneNumber = phoneNumber.toString();
     const messageData = {
       "messaging_product": "whatsapp",
+      "recipient_type": "individual",
       "to": formattedPhoneNumber,
       "type": "template",
       "template": {
